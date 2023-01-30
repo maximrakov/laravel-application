@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+    main:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        command: 'php artisan serve --host=0.0.0.0'
+        volumes:
+            - .:/app
+        environment:
+            PMA_HOST: host.docker.internal
+        ports:
+            - 8080:8000
+        depends_on:
+            - db
+
+    db:
+        image: mysql:latest
+        environment:
+            MYSQL_DATABASE: laravel_crud
+            MYSQL_USER: rmakov
+            MYSQL_PASSWORD: password
+            MYSQL_ROOT_PASSWORD: password
+        volumes:
+            - ./storage/dbdata:/var/lib/mysql
+        ports:
+            - 4407:3306
